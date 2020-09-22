@@ -5,14 +5,12 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Bundle;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -34,7 +32,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     LocationManager locationManager;
     LocationListener locationListener;
     private static final int REQUEST_LOCATION_PERMISSION = 1;
-    //double latitude, longtitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,15 +64,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             if(marker!=null)
                             {
                                 marker.remove();
-                                marker = mMap.addMarker(new MarkerOptions().position(latLng).title(loc));
-                                mMap.setMaxZoomPreference(20);
-                                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,12.0f));
                             }
-                            else{
-                                marker = mMap.addMarker(new MarkerOptions().position(latLng).title(loc));
-                                mMap.setMaxZoomPreference(20);
-                                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,12.0f));
-                            }
+                            marker = mMap.addMarker(new MarkerOptions().position(latLng).title(loc));
+                            mMap.setMaxZoomPreference(20);
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,18.0f));
 
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -85,12 +77,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
             }
-
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
 
+        }
+        mMap.setMyLocationEnabled(true);
     }
 }
