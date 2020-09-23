@@ -6,6 +6,8 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.feander.R;
+
 public class SignUp_Activity extends AppCompatActivity {
 
     @Override
